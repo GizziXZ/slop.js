@@ -2,6 +2,8 @@
 
 const { OpenAI } = require('openai');
 
+const promptCache = new Map();
+
 const SYSTEM_PROMPT =
   'You are a JavaScript code generator. ' +
   'When given a prompt, respond with ONLY valid JavaScript code that can be executed within eval(). ' +
@@ -23,16 +25,30 @@ const RETRY_MESSAGE =
  * @param {string} [options.baseURL]     - Custom base URL for OpenAI-compatible providers (Groq, Mistral, etc.).
  * @param {string} [options.model]       - Model to use (default: "gpt-4o" for OpenAI, "claude-opus-4-5" for Anthropic).
  * @param {number} [options.maxRetries]  - Maximum number of AI fix attempts (default: 10).
+ * @param {boolean} [options.cache]      - When true, cache the result for this exact prompt and return it on subsequent calls.
  * @returns {Promise<*>} Resolves with the value returned by the evaluated code.
  */
 async function slop(prompt, options = {}) {
-  const { provider = 'openai', maxRetries = 10 } = options;
+  const { provider = 'openai', model, maxRetries = 10, cache = false } = options;
 
-  if (provider === 'anthropic') {
-    return slopAnthropic(prompt, options, maxRetries);
+  const cacheKey = `${provider}:${model ?? ''}:${prompt}`;
+
+  if (cache && promptCache.has(cacheKey)) {
+    return promptCache.get(cacheKey);
   }
 
-  return slopOpenAI(prompt, options, maxRetries);
+  let result;
+  if (provider === 'anthropic') {
+    result = await slopAnthropic(prompt, options, maxRetries);
+  } else {
+    result = await slopOpenAI(prompt, options, maxRetries);
+  }
+
+  if (cache) {
+    promptCache.set(cacheKey, result);
+  }
+
+  return result;
 }
 
 async function slopOpenAI(prompt, options, maxRetries) {
