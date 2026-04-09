@@ -1,12 +1,26 @@
 # slop.js
 
-Never trust your own code again with **slop.js** — have AI generate your code each time you want to do something, and automatically fix it whenever it breaks.
+Never trust your own code again with **slop.js**, have AI generate your code each time you want to do something.
+
+It will `.eval()` the code you prompt it to make every single fucking time. Oh there's also no sandboxing or protection.
+
+### Why?
+
+I don't know.
+
+### When?
+
+Hopefully never.
+
+### What (the fuck)?
+
+Any and all further questions will go through my lawyer.
 
 ## How it works
 
-1. You give `slop()` a natural-language prompt.
+1. You give `slop()` a prompt.
 2. It asks an AI model to write the JavaScript code.
-3. It `eval()`s the generated code — **raw, no sandboxing**.
+3. It `eval()`s the generated code **completely raw with no protection**.
 4. If the code throws, the error is fed back to the AI and it tries again, up to `maxRetries` times.
 5. The function is `async`, so you can `await` it before running the next call.
 
