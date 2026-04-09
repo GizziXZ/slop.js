@@ -27,7 +27,7 @@ Any and all further questions will go through my lawyer.
 ## Installation
 
 ```bash
-npm install slop.js
+npm install @gizzixz/slop.js
 ```
 
 ## Usage
