@@ -14,7 +14,7 @@ Ideally never, but potentially immediately if your organization is committed to 
 
 ### What (the fuck)? ⚖️📨🧾😵🔥
 
-Any and all further questions should be routed through legal, compliance, and the emoji center of excellence ⚖️📨🧾🙂
+Any and all further questions should be routed through legal, compliance ⚖️📨🧾🙂
 
 ## How It Works 🤖⚙️📈💥🪄
 
